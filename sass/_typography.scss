@@ -1,0 +1,309 @@
+/*
+** **
+** ** ==> GLOBAL STYLES
+** **
+*/
+h2.section-heading{
+	font-family: 'Great Vibes', cursive;
+	font-size: $fontSizeSectionHeading;
+	display: inline-block;
+	font-weight: 100;
+	text-transform: capitalize;		
+	/*padding: 5rem 2rem;*/
+	@include lineTop;	
+	@media screen and(max-width: $bpSmall){		
+		&::before{
+			visibility: hidden;
+		}
+	}
+}
+.m-top-small{
+	margin-top: 3rem;
+}
+.italic{
+	font-style: italic;
+}
+.underline{
+	text-decoration: underline;
+	text-decoration-color: $colorPrimary;
+}
+.primary{
+	color: $colorPrimary;
+}
+.br{
+	display: block;
+}
+.invis{
+	visibility: hidden;
+}
+
+
+/*
+** **
+** ** ==> INTRODUCTION SECTION
+** **
+*/
+
+.intro__heading{		
+    font-size: 5rem;	
+	font-weight: 100;			
+	line-height: 1;	
+	display: flex;
+	flex-direction: column;	
+	align-content: center;				
+	overflow: hidden;	
+	@media only screen and(max-width: $bpSmall){
+		font-size: 3rem;
+	}
+
+	/*Formatting text individually*/
+	&__intro{					
+	    display: block;			    
+		font-size: $fontSizeSectionHeading;					
+		font-weight: 100;							
+		text-transform: capitalize;								
+	}
+	&__hi{					
+		font-size: 10rem;	  
+		transition: $tranShortEase;	
+		@media only screen and(max-width: $bpMedium){
+			font-size: 8rem;
+		}
+		@media only screen and(max-width: $bpSmall){
+			font-size: 6rem;
+		}		
+	}
+	&__text{																			
+	    font-size: 2.6rem;			
+		letter-spacing: 1.3rem;	
+		transition: $tranShortEase;			
+	}
+	&__i{
+		font-size: 10rem;					
+		transition: $tranShortEase;		
+		@media only screen and(max-width: $bpMedium){
+			font-size: 8rem;
+		}	
+		@media only screen and(max-width: $bpSmall){
+			font-size: 6rem;
+		}		
+	}	
+	&__style{
+		font-size: 3.6rem;		
+		letter-spacing: 1.3rem;
+		margin-top: -3.5rem;
+		display: flex;	
+		color: transparent;	
+		background-image: linear-gradient(
+			to right bottom,
+			$colorPrimaryLight,
+			$colorPrimary			
+		);
+		-webkit-background-clip: text;	
+		background-clip: text;						
+		transition: $tranShortEase;	
+		@media only screen and(max-width: $bpMedium){
+			justify-content: center;
+		}		
+		.and{
+			font-size: 10rem;	
+			transition: $tranShortEase;			
+		}
+		.style{			    	
+			align-self: center;			
+			font-weight: bolder;														
+		}
+
+	}	
+	&__animate{
+		   transition: $tranShortEase;			
+	}
+}
+
+
+
+/*
+** **
+** ** ==> SERVICES SECTION
+** **
+*/
+.skills{
+	&__anim{
+		
+		overflow: hidden;
+	}
+	&__heading{
+		font-size: 7rem;	
+		font-weight: 100;
+		@media only screen and(max-width: $bpMedium){
+			font-size: 6rem;
+		}
+		@media only screen and(max-width: $bpSmall){
+			font-size: 4.5rem;
+		}				
+	}				
+	&__sm{
+		font-size: 3.5rem;	
+		position: relative;
+		padding-top: 1rem;				
+		border-bottom: 2px solid $colorPrimary;			
+	}
+}
+
+
+
+/*
+** **
+** ** ==> SHOWCASE SECTION
+** **
+*/	
+h3.showcase__left__heading{	
+	font-family: 'Great Vibes', cursive;
+	font-size: 5.5rem;
+	font-weight: 300;
+	text-transform: capitalize;	
+}
+p.showcase__left__text{	
+	color: black;
+	font-size: $fontSizeParagraph;
+	font-weight: 100;	
+	text-transform: capitalize;	
+	@media only screen and(max-width: $bpSmall){		
+		font-size: $fontSizeBigParagraph;							
+	}
+}
+h4.showcase__right__heading{
+	font-size: 3rem;
+	font-weight: 200;
+	text-transform: capitalize;			
+}
+p.showcase__right__text{
+	font-size: $fontSizeParagraph;
+	font-weight: 200;	
+	padding: 2rem 0 5rem 0;
+	width: 90%;	
+	@media only screen and(max-width: $bpSmall){
+		width: 100%;
+		font-size: $fontSizeBigParagraph;									
+	}
+}
+h4.showcase__show-all__heading{				
+	font-family: 'Great Vibes', cursive;
+	font-size: 10rem;	
+	font-weight: bold;
+	text-align: center;		
+	color: $colorWhite;				
+	text-decoration: underline;
+	text-transform: capitalize;	
+	transform: scale3d(1.6,1.6,1);
+	transition: $tranShortEase;
+	@media only screen and(max-width: $bpMedium){
+		font-size: 5rem;
+	}
+}
+h5.slider__heading{
+	color: $colorWhite;
+	text-shadow: 2px 2px 1px $colorBlack;
+	font-size: .5rem;		
+	font-weight: 100;
+	width: 150%;
+	height: 150%;
+	border-radius: 50%;	
+	opacity: 1;	
+	@include center;
+	top: 50%;	
+	text-transform: capitalize;
+	transition: all .5s $funcCubic;								
+}
+
+
+
+
+/*
+** **
+** ** ==> ABOUT SECTION <==
+** **
+*/
+.about__myself{
+	padding-bottom: 3.5rem;
+	&__heading{
+		font-size: 30rem;	
+		font-weight: 100;						
+		text-shadow: 1rem 1rem 2rem rgba($colorBlack,0.5);
+	}	
+	&__sub-heading{
+		font-size: 5rem;			
+		font-weight: 100;
+		letter-spacing: -.2rem;
+		margin-top: 2.5rem;
+	}
+	&__sub-heading-top{
+		font-size: 7rem;
+		margin-top: 1rem;
+	}
+	&__detail{
+		font-size: 1.7rem;
+		padding-right: 5rem;
+		line-height: 1.4;
+		&:not(:last-child){
+			padding-bottom: 1.5rem;
+		}
+	}	
+}
+
+
+
+/*
+** **
+** ** ==> FOOTER <==
+** **
+*/
+h3.contact__heading{
+	font-size: 8rem;	
+	font-weight: 500;			
+	text-decoration: underline;	
+	text-align: right;
+	align-self: center;
+	text-decoration-color: $colorPrimary;
+	@media only screen and(max-width: $bpSmall){
+		text-align: center;
+		font-size: 5rem;
+	}
+}
+p.copyright__text{
+	font-size: $fontSizeBigParagraph;
+	letter-spacing: .5rem;
+	font-weight: 100;	
+	margin-top: 3.5rem;
+	padding-bottom: .5rem;
+}
+a.footer__link{
+	text-decoration-color: currentColor ;
+	color: white;	
+	font-family: "Great Vibes", cursive;
+}
+
+
+//Lightboc
+.lightbox{		
+	&__heading{
+		font-size: 4rem;
+		text-decoration: underline;		
+		text-decoration-color: $colorWhite;
+		color: $colorPrimary;
+		font-weight: bold;
+		text-shadow: 1px 1px 1px $colorBlack;								
+	}
+	&__text{
+		font-size: 2rem;	
+		font-family: Calibri, sans-serif;							
+		display: flex;
+		flex-direction: column;
+		justify-content: center;		
+	}
+	&__close{
+		font-size: 8rem;
+		color: $colorPrimary;
+		text-decoration: none;		
+	}
+}

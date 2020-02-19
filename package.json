@@ -1,0 +1,18 @@
+{
+  "name": "portfolio",
+  "version": "2.0.0",
+  "description": "My portfolio website about me and my work.",
+  "main": "index.js",
+  "scripts": {
+    "compile:sass": "node-sass sass/main.scss Css/style.css -w",
+    "compile:sass-c": "node-sass css/style.css css/style.min.css --output-style compressed",
+    "liveserver": "live-server"
+  },
+  "author": "Sadaqat",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefix": "^1.0.1",
+    "node-sass": "^4.12.0"
+  },
+  "dependencies": {}
+}

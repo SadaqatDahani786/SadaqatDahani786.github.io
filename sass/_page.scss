@@ -1,0 +1,681 @@
+/*
+** **
+** ** ==> HEADER <==
+** **
+*/
+.logo{        					
+	width: 8rem;
+	height: 8rem;
+	margin: 2rem;	
+	background: none;		
+	border-radius: 50%;	
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 10;
+	overflow: hidden;		
+	transition: $tranShortEase;			
+	&:hover{
+		transform: scale(.9);
+	}
+
+	.logo__link{		
+		display: inline-block;				
+		width: 100%;
+		height: 100%;																					
+		position: relative;			
+		background-image: url('../Images/logo.png');
+		background-size: contain;
+		background-repeat: no-repeat;		
+		&:hover{
+			background-image: url('../Images/logo.png') !important;						
+		}	
+	}
+}
+
+
+
+/*
+** **
+** ** ==> NAVIGATION <==
+** **
+*/
+
+/*
+ *========= Navigation Button & Functionality =========
+**/	
+.nav-button{
+    position: absolute;
+    width: 100%;        
+ }
+ .nav-btn{ 	
+ 	width: 100%;
+	height: 100%;	
+	background-color: transparent;
+ 	display: flex;
+ 	padding: 1.5rem 1.3rem;
+	cursor: pointer; 	
+
+ 	&__left{
+ 	    flex: 0 0 25%; 		 	
+ 	    padding-right: 2rem;	
+ 	    &__icon{ 		
+	 		font-size: 3rem; 	 			 		
+	 		margin-top: 1.6rem; 
+	 		margin-left: -.3rem;		
+	 		margin-right: auto;  		
+			position: relative;			
+	 		&, 		
+	 		&::before,
+	 		&::after{
+	 			content: "";
+	 			display: block; 			
+	 			width: 3rem;	 			
+	 			height: 3px;
+				 background-color: $colorPrimary; 			
+				 transition: $tranShortEase; 	
+	 		}
+	 		&::before{
+	 			position: absolute;
+	 			top: -8px;
+	 			left: 0;
+	 		}
+	 		&::after{
+	 			position: absolute;
+	 			bottom: -8px;
+	 			left: 0;
+	 		}
+	 	}
+ 	}
+ 	&__right{
+ 		flex: 0 0 60%; 
+ 		&__text{ 						
+		    padding-left: 2rem;
+	 		font-size: 3rem;		 		
+		}
+ 	} 	 	
+	&-handler{
+	 	display: none;
+	}
+	
+	//Hover and Checked Styles	
+	&:hover &__left &__left__icon{
+		width: 2rem;		
+	}
+	&:hover &__left &__left__icon:after{				
+		width: 3rem;
+	}
+	&-handler:checked ~ .navigation{	   
+	   width: 25rem;
+	   background: $colorWhite;
+	   box-shadow: $boxShadowMedium;	
+   }	 		
+	&-handler:checked ~ .navigation .nav-btn__left__icon{
+		width: 3.5rem;		
+	}
+	&-handler:checked ~ .navigation .nav-btn__left__icon:after{
+		width: 2rem;
+	}
+	&-handler:Checked ~ .navigation .nav__link__text{
+		display: inline-block;
+	}
+	&-handler:checked ~ .navigation .nav-btn{
+		background-color: $colorPrimary;
+		.nav-btn__left span{
+			background-color: $colorWhite;
+		}		
+		span::before,
+		span::after{
+			background-color: $colorWhite;
+		}
+	}
+ }
+ /*
+ *========= Navigation Links & List items =========
+**/
+
+.nav{
+    align-self: flex-end;	
+    flex: 0 0 100%;    
+	&__list{
+		list-style: none;		
+		&__item{						
+			width: 100%;		
+			height: 7rem;								
+			overflow: hidden;
+		}		
+	}
+	&__list__item-active &__link:link,
+	&__list__item-active &__link:visited{
+		background: $colorGreyDark;
+	}
+	&__link:link,
+	&__link:visited{
+	    width: 100%;	
+	    height: 100%;		
+		color: $colorBlack;
+		text-decoration: none;
+		font-size: 2rem;
+		padding: 2rem;
+		padding-left: 0;		
+		background: $colorWhite;
+		display: flex;					
+	}
+	&__link:hover{
+		background: $colorPrimary;
+		color: $colorWhite;		
+		@media screen and(max-width: $bpMedium){
+			background-color: $colorGreyLight;
+			color: $colorBlack;		
+		}
+	}	
+	&__link__icon{
+		width: 5rem;				
+	}
+	&__link__text{
+		width: 20rem;
+		padding-left: 4.5rem;		
+		display: none;
+    }	
+}
+
+
+
+
+
+
+/*
+** **
+** ** ==> INTRODUCTION SECTION <==
+** **
+*/
+.intro{		
+	display: flex;				
+	justify-content: center;
+	@media only screen and(max-width: $bpMedium){
+		flex-direction: column;
+		align-items: center;				
+		justify-content: stretch;
+	}		
+	&__wrap{
+		align-self: center;
+		@include center;
+		overflow: hidden;		
+		transition: $tranShortEase;		
+		@media only screen and(max-width: $bpMedium){
+			position: static;
+			transform: none;
+			text-align: center;
+		}
+	}	
+	&__left,
+	&__right{		
+		flex: 0 0 40%;			
+		height: 83vh;		
+		margin-top: 7vh;
+		position: relative;			
+		background-color: $colorGreyLight;			
+		transition: $tranShortEase;
+		box-shadow: $boxShadowMedium;		
+		overflow: hidden;
+		margin-right: 5px;
+		@media only screen and(max-width: $bpMedium){
+			width: 95%;
+			margin: 0;
+			height: 0;			
+			flex: 0 0 45vh;	
+			box-shadow: none;							
+			display: flex;
+			justify-content: center;
+			transition: none;
+		}
+		
+	}
+	&__left{				
+		animation: anim-slide-down 1s $funcExponent;								
+		@media only screen and(max-width: $bpMedium){
+			animation: none;											
+			margin-top: 5vh;
+		}
+	}	
+	&__right{
+		animation: anim-slide-up 1s $funcExponent;	    
+		background-image: url(../Images/intro-img.jpg);
+		background-size: cover;		
+		background-position: center;	
+		background-repeat: no-repeat;		
+		@media screen and(max-width:$bpSmall){
+			background-image: url(../Images/intro-img-small.jpg);
+		}
+	    &__img{	    	
+			width: 100%;
+			height: 100%;						
+	    	background-image: linear-gradient(
+	    		$colorPrimary,
+	    		$colorPrimaryLight
+			),url(../Images/intro-img.jpg);
+			background-size: cover;		
+			background-position: center;	
+			background-repeat: no-repeat;
+			background-blend-mode: multiply;
+			transition: $tranShortEase;						
+			@media screen and(max-width:$bpSmall){
+				background-image: linear-gradient(
+	    			$colorPrimary,
+	    			$colorPrimaryLight
+				),url(../Images/intro-img-small.jpg);
+			}
+			
+		}
+		@media only screen and(max-width: $bpMedium){
+			animation: none;											
+		}
+	}
+	.left-book{
+		clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);		
+		border-radius: 1rem 0 0 1rem;
+		margin-right: 0;	
+		@media only screen and(max-width: $bpMedium){
+			clip-path: none;			
+			border-radius: 1rem 1rem 0 0;
+		}
+	}
+	.right-book{
+		clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);				
+		border-radius: 0 1rem 1rem 0;		
+		margin-right: 1px;
+		@media only screen and(max-width: $bpMedium){
+			clip-path: none;			
+			border-radius: 0 0 1rem 1rem;
+		}
+	}
+}
+
+
+
+
+
+
+/*
+** **
+** ** ==> SERVICES SECTION <==
+** **
+*/
+.skills{		
+	// padding: 10rem 0;
+	width: 100%;
+	height: 95vh;	
+	margin-top: 10vh;
+	display: flex;				
+	flex-direction: column;	
+	justify-content: space-evenly;
+
+	&__top{		
+		display: flex;		
+		@media only screen and(max-width: $bpSmall){flex-direction: column;}
+		&__left{ 
+			flex: 0 0 45%; 
+			@media only screen and(max-width: $bpMedium){flex: 0 0 45%;}
+		}
+		&__mid  {   flex: 0 0 5%;   }
+		&__right{ 	flex: 0 0 50%; 	}
+	}
+	&__mid{		
+		padding: 5rem 0;
+		display: flex;		
+		@media only screen and(max-width: $bpSmall){flex-direction: column;}
+		&__left{ 
+			flex: 0 0 40%; 
+			@media only screen and(max-width: $bpMedium){flex: 0 0 48%;}
+		}
+		&__mid{ 
+			flex: 0 0 10%; 			
+		}
+		&__right{ 
+			flex: 0 0 50%; 
+			@media only screen and(max-width: $bpMedium){flex: 0 0 40%;}
+		}
+	}
+	&__bottom{		
+		display: flex;		
+		@media only screen and(max-width: $bpSmall){flex-direction: column;align-items: center;}
+		&__left{ 
+			flex: 0 0 60%;
+			@media only screen and(max-width: $bpMedium){flex: 0 0 48%;}
+		}
+		&__mid{ 
+			flex: 0 0 9%; 
+			@media only screen and(max-width: $bpMedium){flex: 0 0 4%;}
+			@media only screen and(max-width: $bpSmall){width: 30%;}
+		}
+		&__right{ 
+			flex: 0 0 31%; 
+			@media only screen and(max-width: $bpMedium){flex: 0 0 48%;}
+		}
+	}	
+}
+
+
+
+
+
+
+/*
+** **
+** ** ==> WORK SECTION <==
+** **
+*/
+.showcase{
+    /*
+	 *========= Heading =========
+	**/	
+	&__header{					
+		padding: 10rem;
+		text-align: right;		
+	}
+	&__flexbox{                      
+		width: 100%; 
+		height: 100vh;
+		display: flex;	
+		@media only screen and(max-width: $bpSmall){
+			flex-direction: column;
+			height: 190vh;			
+			background-color: $colorGreyLight;
+		}
+		.right-textbox-bot{
+			& .showcase__right__list{
+				li{
+					color: $colorPrimary;
+					background-color: white;
+				}
+			}
+		}
+
+		/*
+		** Colors of all 4 sides
+		** Top left and Right side of Showcase 01
+		** Bot left and Right side of Showcase 02
+		**/
+		&-top &__left {background-color: $colorWhite;color: $colorBlack;}
+		&-top &__right{background-color: $colorGreyLight;color: $colorBlack;}	
+		&-bot &__left{background-color: $colorGreyDark;color: $colorWhite;}
+		&-bot &__right{background-color: $colorPrimary;color:$colorWhite;}
+
+		/*
+		 *========= Left Side =========
+		**/
+		&__left{                         
+			flex: 0 0 50%;	
+			display: flex;
+			flex-direction: column;						
+			&__imgbox{
+				flex: 0 0 80%;				
+			    &__img{
+			    	width: 50%;
+					height: 60vh;	
+					margin: 20vh auto 0;
+					overflow: hidden;						
+					transform: scale3d(1.6,1.6,1);
+					transition: $tranShortEase;						
+					& > img{
+						width: 100%;												
+					}
+					@media only screen and(max-width: $bpSmall){
+						width: 80%;		
+						height: 80vh;
+						margin: 5vh auto 0;
+					}
+			    }
+			}			
+			&__textbox{				
+				flex: 0 0 20%;
+				text-align: center;	
+				position: relative;
+				z-index: 10;
+				& > p{
+					margin-top: 5%;
+					@media only screen and(max-width: $bpSmall){
+						margin-top: 0;
+					}
+				}		
+			}
+		}
+
+		/*
+		 *========= Right Side =========
+		**/
+		&__right{                         
+			flex: 0 0 50%;
+			display: flex;
+			flex-direction: column;						
+			justify-content: space-between;
+			overflow: hidden;
+			@media only screen and(max-width: $bpSmall){
+				flex-basis: 0 0 50;						
+				background-color: blue;
+			}
+			&__imgbox{				
+				overflow: hidden;
+				border-top: 1px solid $colorGreyDark;	
+				background: $colorGreyLight;																	
+				&__img{					
+					width: 100%;									
+				}				
+			}
+			&__textbox{					
+				width: 50%;							
+				margin: 0 auto;				
+				display: flex;							
+				height: 100%;
+				flex-direction: column;	
+				justify-content: center;				
+				transition: $tranLongEase;
+				@media only screen and(max-width: $bpMedium){
+					width: 100%;
+					margin-left: 0;
+					padding-left: 5rem;
+				}	
+				@media only screen and(max-width: $bpSmall){					
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					padding: 0 6rem;
+				}			
+				& h2.showcase__heading{
+					padding: 2rem 0;
+				}
+				& h4.showcase__right__heading{													
+					font-size: 10rem;
+					font-family: Lobster two;					
+					@media only screen and(max-width: $bpSmall){
+						margin-top: 15%;						
+					}	
+				}	
+				& > .showcase__right__list{							
+					font-size: 1.6rem;
+					font-weight: 500;							
+					list-style: none;
+					text-transform: uppercase;								
+					padding: 2rem 0 4rem 0;		
+					color: black;
+					display: flex;
+					justify-content: space-between;
+					& > .showcase__right__list__item{												
+						background-color: $colorIntroPrimary;
+						color: white;
+						padding: .5rem 1.5rem;						
+				    }  
+				}				
+				& .showcase__right__btn{					
+					height: 100px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					@media only screen and(max-width: $bpSmall){
+						height: 60px;
+					}
+				}
+
+			}
+		}		
+	}	
+	/*
+	 *========= Show all work =========
+	**/
+	&__show-all{
+		width: 100%;
+		min-height: 100vh;			
+	    background: $colorGreyDark;	    
+	    display: flex;
+	    flex-direction: column;	    	        	    
+		&__top{
+			flex: 0 0 20vh;
+			display: flex;
+			justify-content: center;			
+			align-items: flex-end;
+		}
+		&__bottom{
+			flex: 0 0 80vh;								
+		}
+		&__grid{
+			width: 70%;
+			margin: 0 auto;			
+			display: grid;			
+			grid-template-rows: repeat(2,40vh);
+			grid-template-columns: repeat(3,1fr);			
+			@media only screen and(max-width: $bpLarge){
+				grid-template-columns: repeat(2,1fr);
+				grid-template-rows: repeat(3,40vh);
+			}
+			@media only screen and(max-width: $bpSmall){				
+				width: 100%;
+				grid-template-rows: repeat(6,60vh);
+				grid-template-columns: repeat(1,1fr);
+			}			
+			& .project-1{				
+				background-color: $colorProject1;				
+				&:hover{
+					box-shadow: 0 2rem 4rem rgba($colorProject1,.5);
+					transform: translateY(-5px);
+				}
+			}
+			& .project-2{
+				background-color: $colorProject2;
+				&:hover{
+					box-shadow: 0 2rem 4rem rgba($colorProject2,.5);
+					transform: translateY(-5px);
+				}
+			}
+			& .project-3{
+				background-color: $colorProject3;
+				&:hover{
+					box-shadow: 0 2rem 4rem rgba($colorProject3,.5);
+					transform: translateY(-5px);
+				}
+			}
+			& .project-4{
+				background-color: $colorProject4;
+				&:hover{
+					box-shadow: 0 2rem 4rem rgba($colorProject4,.5);
+					transform: translateY(-5px);
+				}
+			}
+			& .project-5{
+				background-color: $colorProject5;
+				&:hover{
+					box-shadow: 0 2rem 4rem rgba($colorProject5,.5);
+					transform: translateY(-5px);
+				}
+			}
+			& .project-6{
+				background-color: $colorProject6;
+				&:hover{
+					box-shadow: 0 2rem 4rem rgba($colorProject6,.5);
+					transform: translateY(-5px);
+				}
+			}
+		}
+		&__work{
+			width: 80%;
+			height: 80%;
+			margin-left: 10%;
+			margin-top: 10%;
+			background-color: white;			
+			overflow: hidden;
+			border-radius: 15px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			transition: $tranShortEase;
+			& img{
+				width: 100%;				
+			}			
+		}		
+	}
+}
+
+
+
+
+/*
+** **
+** ** ==> ABOUT SECTION <==
+** **
+*/
+.about{
+	text-align: center;	
+	&__myself{
+		width: 50%;
+		margin-left: 50%;	
+		text-align: left;					
+		@media only screen and(max-width: $bpMedium){			
+			width: 60%;			
+			margin-left: 10%;	
+		}
+		@media only screen and(max-width: $bpSmall){			
+			width: 80%;									
+		}
+	}	
+	&__list{		
+		list-style: none;
+		&__item{			
+			font-size: 1.3rem;
+			display: flex;			
+		}
+		.name{
+			flex: 0 0 30%;
+			@media screen and(max-width:$bpSmall){
+				flex: 0 0 50%;
+			}
+		}
+		.year{
+			flex: 0 0 30%;						
+			@media screen and(max-width:$bpSmall){
+				flex: 0 0 50%;
+			}
+		}
+	}	
+}
+
+
+
+
+
+
+/*
+** **
+** ** ==> FOOTER <==
+** **
+*/
+.footer{
+	text-align: center;	
+	display: flex;	
+	flex-direction: column;			
+	&__copyright{
+		width: 100%;
+		margin-top: auto;
+		min-height: 10rem;		
+		box-shadow: $boxShadowDark;
+		background-color: $colorPrimary;
+	}
+}

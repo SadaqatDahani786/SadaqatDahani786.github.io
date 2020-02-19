@@ -1,0 +1,176 @@
+/*
+** **
+** ** ==> ANIMATION STYLES <==
+** **
+*/
+span.animText{
+	animation: anim-slide-text 1s $funcExponent;	
+}
+span.animateText{	
+	visibility: hidden;
+	@media only screen and(max-width: $bpMedium){
+		visibility: visible;
+	}
+}
+.animBox{
+	position: relative;
+	&::after{
+		content: "";
+		width: 100%;
+		height: 100%;			
+		position: absolute;
+		top: 0;
+		left: -100%;		
+		background: $colorPrimary;		
+	    animation: anim-slide-box .7s $funcExponent;  
+	    visibility: hidden;
+	}
+}
+.animFadeInShowcase{
+	animation: fadeInShowcase 2s $funcCubic;
+}
+
+//Animation blur
+.anim-blur{	
+	animation: anim-blur .3s infinite;
+	animation-timing-function: $funcExponent;		
+}
+
+
+//LogoBoxex Animations
+.anim-in{
+	visibility: hidden;
+	@media screen and(max-width: $bpMedium){
+		visibility: visible;		
+	}
+}
+.anim-in-animate{
+	visibility: visible;	
+	animation: anim-in 1s $funcExponent;
+}
+.fadeUp{
+	animation: fadeInShowcase .4s .4s ease-out;
+}
+
+
+/*
+** **
+** ** ==> ANIMATION KEYFRAMES <==
+** **
+*/
+
+/*Animation Sliding Text Effect*/
+@keyframes anim-slide-text{
+	0%{			    
+	    margin-left: -100%;				
+	    opacity: 0;
+	}
+	50%{		
+		opacity: 0;
+	}	
+	100%{				
+		opacity: 1;
+		margin-left: 0;		
+	}	
+}
+
+/*Animation Sliding Box Effect*/
+@keyframes anim-slide-box{
+	0%{			    
+	    left: -100%;	    
+	    visibility: visible;
+	}	
+	100%{				
+		left: 100%;				
+	}	
+}
+
+/*Animation Blur Effect*/
+@keyframes anim-blur{
+	0%{	    	 	   	    	    	    
+	    filter: blur(1px);
+	}
+	20%{		
+	    filter: blur(1.5px);	
+	    text-shadow: 1px 1px 1px rgba($colorBlack,.30);	       
+	}	
+	50%{
+	    filter: blur(1.5px);		    	    	    
+	    text-shadow: 2px 1px 1px rgba($colorBlack,.30);	    
+	}
+	90%{		
+		text-shadow: 0 1px 1px rgba($colorBlack,.20);
+	}	
+	100%{								    
+	    filter: blur(1px);	    	    
+	    filter: blur(1px);	
+	    text-shadow: 1px 3px 5px rgba($colorBlack,.30);	    
+	}
+}
+
+
+/*Animation Book Effect*/
+@keyframes anim-book-left{
+	0%{
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);		
+	}
+	100%{		
+		clip-path: polygon(0 0, 100% 5%, 100% 95%, 0 100%);
+		border-radius: 1rem 0 0 1rem;		
+	}
+}
+@keyframes anim-book-right{
+	0%{
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);		
+	}
+	100%{		
+		clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);		
+		border-radius: 0 1rem 1rem 0;
+	}
+}
+
+
+/*Animation Slide Up/Down Effect For Introduction*/
+@keyframes anim-slide-down{
+	0%{
+		margin-top: -100vh;		
+	}	
+	100%{		
+		margin-top: 7vh;
+	}
+}
+@keyframes anim-slide-up{
+	0%{		
+		margin-top: 100vh;
+	}	
+	100%{		
+		margin-top: 7vh;
+	}
+}
+
+
+//Showcase Textbox Fade In effect
+@keyframes fadeInShowcase{
+	0%{
+		opacity: 0.2;
+		visibility: visible;
+		margin-top: 40%;
+	}
+	100%{
+		opacity: 1;
+		margin-top: 0;
+		visibility: visible;
+	}
+}
+
+//LogoBoxex Animation
+@keyframes anim-in{
+	0%{
+		opacity: 0;
+		margin-left: 150%;				
+	}	
+	100%{
+		opacity: 1;
+		margin-left: 10%;
+	}
+}

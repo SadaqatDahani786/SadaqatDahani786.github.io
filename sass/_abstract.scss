@@ -1,0 +1,86 @@
+//Colors
+$colorPrimary: #ff0052;
+$colorPrimaryLight: #ec006f; 
+$colorPrimaryDark: #cc2c00; 
+
+$colorIntroPrimary: #1a0022;
+$colorIntroSecondary: #a50031;
+
+$colorGreyLight: #f2f2f2;
+$colorGreyDark: #ded5c4;
+
+$colorWhite: #fff;
+$colorBlack: #000;
+$colorBlackLight : #270a0d;
+
+//Colors Projects
+$colorProject1: #c6124c;
+$colorProject2 : #1a0022;
+$colorProject3 : #422b88;
+$colorProject4 : #e66853;
+$colorProject5 : #e38b0c;
+$colorProject6 : #3e77ff;
+
+//BoxShadow
+$boxShadowLight: 0 2rem 6rem rgba(2, 2, 2, .12);
+$boxShadowMedium: 0 2rem 6rem rgba(2, 2, 2, .27);
+$boxShadowDark: 0 2rem 6rem rgba(2, 2, 2, .50);
+
+//Sizes
+$fontSizeSectionHeading: 3.5rem;
+$fontSizeBigSectionHeading: 4.5rem;
+$fontSizeParagraph: 1.5rem;
+$fontSizeBigParagraph: 2.5rem;
+
+//Animation
+$funcExponent: cubic-bezier(1,0,0,1);
+$funcCubic: cubic-bezier(.22,.61,.36,1);
+
+//Transitions
+$tranShortSwing: all .4s $funcExponent;
+$tranLongSwing: all 1s $funcExponent;
+$tranShortEase: all .4s $funcCubic;
+$tranLongEase: all 1s $funcCubic;
+
+
+//Media Queriest Breakpoints 
+// 1 rem = 16 = 1130/16 = 70.625rem
+$bpLarge: 70.625rem; 
+$bpTabLandscape: 86.5rem; 
+$bpMedium: 50rem;
+$bpSmall: 37.5rem;
+
+
+
+
+/*
+** POSITION ABSOLUTE CENTER
+*/
+@mixin center{
+	position: absolute;
+	top: 50%;
+	left :50%;
+    transform: translate(-50%,-50%);	
+}
+/*
+** LINE TOP
+*/
+@mixin lineTop{
+	position: relative;
+	&::before{
+		content: "";
+		width: 1px;
+		background-color: currentColor;
+		height: 3rem;
+		position: absolute;
+		top: -3rem;
+		left: 50%;			
+		@media screen and(max-width: $bpSmall){
+			top: 50%;
+			left: 102%;						
+			width: 6rem;		
+		    height: 2px;
+		}
+	}
+}
+

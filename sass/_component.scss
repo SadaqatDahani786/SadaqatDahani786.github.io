@@ -1,0 +1,357 @@
+/*
+** **
+** ** ==> BUTTON
+** **
+*/
+.btn{
+	position: relative;			
+	z-index: 2;
+	transition: all .2s ease;		
+	&,
+	&:link,
+	&:visited{
+		font-family: 'Great Vibes', cursive;
+		font-size: 3rem;
+		font-weight: 100;
+		text-decoration: none;
+		text-align: center;
+		padding: 1.5rem;			
+		padding-left: 0;
+		border: none;	
+		cursor: pointer;		
+	}		
+	&:active::after{				
+		box-shadow: $boxShadowMedium;
+	}		
+	&::after{
+		content: "";
+		display: block;
+		width: 100%;
+		height: 2px;		
+		position: absolute;		
+		left: 0;
+		bottom: 1px;
+		transition: all .2s ease;		
+		transform: translateY(0);		
+		z-index: 1;		
+	}
+	&:hover::after{		
+	    height: 100%;
+	    z-index: -1;	 	    	    
+	}
+	&:hover{			    	    
+	    font-size: 2.8rem;
+	    padding-left: 2rem;
+	}
+
+	/*Button primary and Button Seconday Styles*/	
+	&.btn-primary{
+		color: $colorPrimary;		
+		background: linear-gradient(to right bottom,$colorPrimary,$colorPrimaryLight);  						
+		background-clip: text;
+		-webkit-background-clip: text;
+	}
+	&.btn-secondary{
+		color: $colorWhite;		
+	    background: linear-gradient(to right bottom,$colorGreyLight,$colorWhite);  						
+		background-clip: text;	
+		-webkit-background-clip: text;
+	}
+	&.btn-primary::after{ 
+		background: linear-gradient(to right bottom,$colorPrimary,$colorPrimaryLight);
+	}		
+	&.btn-secondary::after{ 
+		background: linear-gradient(to right bottom,$colorGreyLight,$colorWhite);
+	}
+	&.btn-primary-bg{
+		color: $colorWhite;				
+		&::after{
+			height: 100%;
+			z-index: -1;			
+			border-radius: 3rem;
+		}
+	}
+	&.btn-secondary-bg{
+		color: $colorBlack;		
+		&::after{
+			height: 100%;
+			z-index: -1;			
+		}
+	}
+	&.btn-primary:hover{
+		color: $colorWhite;		
+	}				
+	&.btn-secondary:hover{
+		color: $colorPrimary;				
+	}
+
+	/*Sizes*/
+	&.btn-block{
+		display: block;
+	    width: 100%;
+	}
+}
+
+
+
+
+/*
+** **
+** ** ==> CONTACT FORM
+** **
+*/
+.contact{
+	width: 80%;	
+	margin: 0 auto;
+	min-height: 60vh;
+	margin-top: 10vh;
+	margin-bottom: 2rem;	
+	background-color: $colorGreyLight;
+	box-shadow: $boxShadowMedium;
+	display: flex;
+	@media only screen and(max-width: $bpMedium){
+		width: 90%;				
+	}	
+	@media only screen and(max-width: $bpSmall){
+		flex-direction: column;		
+		margin-top: 5vh;
+	}	
+	&__left{
+		flex: 0 0 40%;
+		padding: 5rem;
+		background-color: $colorWhite;
+		display: flex;		
+	}
+	&__right{
+		flex: 0 0 60%;
+		padding: 5rem;
+		background-color: $colorGreyDark;		
+		display: flex;
+	}
+	&__form{	
+	    align-self: center; 	      
+	    width: 80%;	    
+		&__input-text,
+		&__input-email,
+		&__input-message{			
+			width: 100%;
+			padding: 2rem 0;
+			background-color: transparent;
+			border: none;
+			margin-bottom: 1rem;
+			border-radius: 5px;
+			border-bottom: 2px solid $colorPrimary;						
+		}
+		&__input-text::placeholder,
+		&__input-email::placeholder,
+		&__input-message::placeholder{		    
+		    font-size: 1.8rem;	
+		    font-weight: 100;		    	
+		}
+		&__input-text:focus,
+		&__input-email:focus,
+		&__input-message:focus{
+			box-shadow: $boxShadowLight;
+		}
+		&__input-message{			
+			padding: 3.5rem 0;
+		}
+		&__submit-button{
+			margin-top: 2rem;	
+			height: 100px;			
+			& button:hover{
+				padding-left: 0 !important;
+			}		
+		}
+	}
+}
+
+
+/*
+** **
+** ** ==> CONTACT FORM
+** **
+*/
+.lightbox{
+	width: 100%;
+	height: 100vh;	
+	position: fixed;
+	background-color: $colorWhite;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	display: none;	
+	&__bg{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: rgba($colorBlack,0.8);
+		z-index: -1;
+	}
+	&__wrap{
+		width: 90%;
+		height: 90vh;		
+		margin: 0 auto;
+		margin-top: 5vh;		
+		box-shadow: $boxShadowDark;			
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}	
+	&__slider{
+		flex: 0 0 70%;
+		background-color: rgba($colorBlack,0.5);
+		position: relative;
+		overflow: hidden;
+		&__container{
+			display: flex;	
+			width: 100%;		
+			height: 100%;						
+		}
+		.slider__indicators{			
+			position: absolute;
+			bottom: 0;
+			left: 0;	
+			z-index: 100;
+			font-size: 2.5rem;			
+			display: flex;
+			justify-content: flex-end;			
+			padding: 2rem;
+			width: 100%;
+			list-style: none;
+			li{				
+				margin-left: 1.5rem;				
+				padding: 0 1.2rem;
+				text-align: center;
+				color: transparent;
+				background-color: $colorIntroPrimary;
+				border: 1px solid $colorIntroSecondary;				
+				border-radius: 50%;
+				cursor: pointer;				
+				&:hover{									
+					border: 1px solid $colorPrimary;	
+					background-color: $colorWhite;
+				}
+				@media screen and(max-width:$bpSmall){
+					width: 20px;
+					height: 20px;
+					padding: 0;					
+				}
+				@media screen and(max-width:$bpSmall){
+					width: 15px;
+					height: 15px;
+					padding: 0;					
+				}
+			}
+			li.active{
+				border: 1px solid white;									
+			}
+		}
+		.smooth-container{
+			transition: $tranShortEase;
+		}
+		&__slides{
+			flex: 0 0 100%;				
+			height: 100%;	
+			overflow: hidden;					
+			img{				
+				height: 100%;
+				margin-left: 50%;
+				transform: translateX(-50%);
+				cursor: zoom-in;
+			}			
+			.img-cusrsor-zoom-out{
+				cursor: zoom-out;
+			}
+		}
+		.slide-overflow{
+			overflow-y: scroll;
+		}
+		.slides-zoom{			
+			height: auto;
+			width: 100%;
+			margin-left: 0;
+			transform: none;						
+		}
+		&__controls{						
+			&__control{
+				font-size: 5rem;
+				position: absolute;			
+				top: 50%;
+				z-index: 1000;
+				transform: translateY(-50%);				
+				text-decoration: none;
+				color: white;
+				text-shadow: 1px 1px 1px rgba($colorBlack,0.8);
+				padding: 1rem 2rem;												
+				background-color: rgba(white,.4);
+				transition: all .2s ease;
+				&:hover{
+					color: $colorGreyLight;
+					font-size: 6.5rem;
+				}
+				&--next{					
+					right: 0%;					
+				}
+				&--prev{
+					left: 0;					
+				}
+			}
+		}
+	}
+	&__close{
+		position: absolute;
+		top: -15px;
+		right: 0;
+		background-color: rgba($colorWhite,.5);
+		z-index: 600;			
+		padding: 0 2.5rem;	
+		transition: all .2s ease;
+		&:hover{
+			background-color: transparent;
+			color: white;
+		}
+		
+	}
+	&__content{
+		flex: 0 0 30%;
+		background-color: $colorGreyLight;
+		display: flex;	
+		justify-content: space-between;	
+		padding: 2.5rem;
+		overflow-y: scroll;
+		@media screen and(max-width:$bpSmall){
+			flex-direction: column;			
+		}
+		&__title{
+			flex: 0 0 30%;
+			background-color: $colorGreyLight;			
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			&__tags{				
+				padding: 1rem 0;
+				font-size: 1.5rem;
+				display: flex;	
+				justify-content: flex-start;
+				flex-wrap: wrap;				
+				color: $colorPrimary;
+				list-style: none;				
+				text-transform: capitalize;
+				li{
+					background-color: $colorIntroPrimary;										
+					padding: 1rem 2rem;	
+					width: 100px;	
+					margin-left: .5rem;
+					margin-top: .5rem;															
+				}						
+			}
+		}				
+		&__desc{
+			padding: 1rem 0;
+			display: flex;	
+			flex-direction: column;
+			justify-content: center;
+		}
+	}
+}

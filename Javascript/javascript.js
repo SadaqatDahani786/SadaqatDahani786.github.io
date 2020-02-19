@@ -1,8 +1,283 @@
+/*
+** **
+** ** * IMAGE SLIDER 
+** **
+*/
+class Slider{
+    constructor(nextButton,prevButton,sliderContainer,sliderIndicator,sliderSlides){
+        //Elements
+        this.nextButton = nextButton;
+        this.prevButton = prevButton;
+        this.sliderContainer = sliderContainer;
+        this.sliderIndicator = sliderIndicator;
+        this.sliderSlides = sliderSlides;        
+
+        //State
+        this.boxPerSlide = 1;
+        this.currSlide = 1;            
+        this.totalSlides = this.sliderSlides.length;
+        this.zoomToggle = true;
+
+        //Events
+        this.events();
+        this.createClones();
+        this.createIndicators();
+    }
+
+    //Events
+    events(){                
+        this.nextButton.addEventListener('click', this.next.bind(this));
+        this.prevButton.addEventListener('click', this.prev.bind(this));                                        
+        this.sliderContainer.addEventListener('transitionend',this.transition.bind(this));                
+        this.sliderSlides.forEach(curr=>{
+            curr.addEventListener('click',this.zoom.bind(this));
+        });
+        this.resize();                
+    }
+
+    //Zoom Effect
+    zoom(e){                
+        
+        //Check for image
+        if(e.target == this.sliderSlides[this.currSlide]){
+            return;
+        }
+
+        //ZoomToggle 
+        if(this.zoomToggle){            
+            e.target.classList.add('slides-zoom');
+            this.sliderSlides[this.currSlide].classList.add('slide-overflow');
+            this.sliderSlides[this.currSlide].children[0].classList.add('img-cusrsor-zoom-out');
+            this.zoomToggle = false;        
+        }else{
+            e.target.classList.remove('slides-zoom');
+            this.sliderSlides[this.currSlide].classList.remove('slide-overflow');
+            this.sliderSlides[this.currSlide].children[0].classList.remove('img-cusrsor-zoom-out');
+            this.zoomToggle = true;
+        }
+    }
+    //Remove Zoom Effect
+    zoom_default(){                
+        const i = this.currSlide - 1;
+        this.sliderSlides[i].classList.remove('slide-overflow');        
+        this.sliderSlides[i].children[0].classList.remove('slides-zoom');
+        this.zoomToggle = true;    
+    }
+
+    //Next Slide
+    next(e){        
+        e.preventDefault(); 
+        
+        //Check for slides
+        if(this.currSlide >= (this.totalSlides + 1)){
+            return;
+        }               
+
+        //RemoveZoom
+        this.zoom_default();
+        
+        //Slide To Next
+        this.sliderContainer.classList.add('smooth-container');
+        this.currSlide++;        
+        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';                        
+        
+    }
+
+    //Prev Slide
+    prev(e){
+        e.preventDefault();                      
+
+        //Check for slides
+        if(this.currSlide <= 0){
+            return;
+        }
+
+        //Remove Zoom
+        this.zoom_default();
+        
+        //Slide To Previous
+        this.sliderContainer.classList.add('smooth-container');
+        this.currSlide--;
+        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';                
+    }
+
+    //Transition
+    transition(){        
+        let i = this.currSlide - 1; 
+        if(this.sliderSlides[this.currSlide].classList.contains('last-clone')){
+            this.sliderContainer.classList.remove('smooth-container');
+            this.currSlide = this.totalSlides;
+            this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';                    
+            i = this.currSlide - 1;
+        }        
+        if(this.sliderSlides[this.currSlide].classList.contains('first-clone')){            
+            this.sliderContainer.classList.remove('smooth-container');
+            this.currSlide = Math.abs(this.totalSlides - this.currSlide);                        
+            this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';        
+            i = this.currSlide - 1;                                    
+        }
+        //Active Indiactor
+        for (let x = 0; x < this.sliderIndicator.children.length; x++) {
+            if (this.sliderIndicator.children[x].classList.contains('active')) {
+                this.sliderIndicator.children[x].classList.remove('active');                
+              break;
+            }        
+        }        
+        this.sliderIndicator.children[i].classList.add('active');                        
+        
+    }
+
+    //Create Slides Clones{
+    createClones(){
+
+        //First Clone
+        const slideElFirstClone = document.createElement("div");
+        const slideElFirstCloneImg = document.createElement('img');
+        const slideElFirstCloneImgSrc = this.sliderSlides[0].children[0].getAttribute('src');
+        
+        //Set Classess - First Clone
+        slideElFirstClone.classList.add('lightbox__slider__slides');
+        slideElFirstClone.classList.add('first-clone');
+
+        //Append - First Clone
+        slideElFirstCloneImg.setAttribute('src',slideElFirstCloneImgSrc);
+        slideElFirstClone.appendChild(slideElFirstCloneImg);
+        this.sliderSlides.push(slideElFirstClone);
+        
+        //Last Clone
+        const slideElLastClone = document.createElement("div");
+        const slideElLastCloneImg = document.createElement('img');
+        const slideElLastCloneImgSrc = this.sliderSlides[this.sliderSlides.length - 2].children[0].getAttribute('src');
+        
+        //Set Classess - Last Clone
+        slideElLastClone.classList.add('lightbox__slider__slides');
+        slideElLastClone.classList.add('last-clone');
+
+        //Append - Last Clone
+        slideElLastCloneImg.setAttribute('src',slideElLastCloneImgSrc);
+        slideElLastClone.appendChild(slideElLastCloneImg);
+        this.sliderSlides.unshift(slideElLastClone);
+    
+        //Insert First And Last Clone
+        this.sliderContainer.insertAdjacentElement('beforeEnd',slideElFirstClone);
+        this.sliderContainer.insertAdjacentElement('afterbegin',slideElLastClone);                
+    }
+
+    createIndicators(){                
+        for(let i = 0; i < this.totalSlides; i++){            
+            //Create Element
+            const li = document.createElement('li');  
+            li.appendChild(document.createTextNode('-'));
+            //Set Attributes            
+            li.setAttribute('data-slide-to', i);            
+            //Add Event
+            li.addEventListener('click',this.indicate.bind(this));            
+            //Add To Dom            
+            this.sliderIndicator.insertAdjacentElement('beforeEnd',li);
+        }
+        //Active Indicator
+        const i = this.currSlide - 1;        
+        this.sliderIndicator.children[i].classList.add('active');
+    }
+    indicate(e){
+        e.preventDefault();
+        //Get SlideTo Attribute
+        const slideTo = parseInt(e.target.getAttribute('data-slide-to'));
+        this.currSlide = slideTo + 1;
+        //Slide 
+        this.sliderContainer.classList.add('smooth-container');
+        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';               
+    }
+
+    //Resize
+    resize(){
+        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * 100+'%)';
+    }
+}
+
+/*
+** **
+** ** * LIGHTBOX
+** **
+*/
+class Lightbox{
+    constructor(lightbox){
+        //Elements
+        this.lightbox = lightbox;                        
+        this.openButton = document.querySelector(`.showcase__show-all__grid__link[data-target="#${this.lightbox.getAttribute('id')}"]`);                
+        this.closeButton = $(lightbox).find('.lightbox__close')[0];
+        this.closeBg = $(lightbox).find('.lightbox__bg')[0];        
+
+        //events
+        this.events();
+    }
+
+    //Events
+    events(){
+        this.openButton.addEventListener('click', this.show.bind(this));
+        this.closeButton.addEventListener('click', this.hide.bind(this));
+        this.closeBg.addEventListener('click', this.hide.bind(this));
+    }
+
+    //Show Lightbox
+    show(e){
+        e.preventDefault();
+        $(this.lightbox).fadeIn('fast');
+        $(document.body).css('overflow','hidden');
+    }
+
+    //Hide Lightbox
+    hide(e){
+        e.preventDefault();
+        $(document.body).css('overflow','');
+        $(this.lightbox).fadeOut('fast');
+    }
+}
+
+
+/*
+** **
+** ** * DOCUMENT START
+** **
+*/
 $(document).ready(function(){    
     var status = true;    
-    var statusCheckbox = true;      
+    var statusCheckbox = true;       
 
-    //NAVIGATION OPENING/CLOSING
+    /*
+    ** **
+    ** ** * PRELOAD LOGO SECOND IMAGE
+    ** **
+    */
+    $('<img/>').attr('src', 'http://127.0.0.1:8080/Images/logo-invert.png').on('load', function() {                        
+        $('.logo__link').css('background-image', 'url(http://127.0.0.1:8080/Images/logo-invert.png)');                        
+        this.remove();        
+    });
+
+    /*
+    ** **
+    ** ** * LIGHTBOXEX AND IMAGE SLIDERS
+    ** **
+    */
+    const Sliders = [];    
+    const Lightboxex = [];
+    document.querySelectorAll('.lightbox').forEach(function(lightbox){        
+
+        const nextBtn = $(lightbox).find('.lightbox__slider__controls__control--next')[0];
+        const prevBtn = $(lightbox).find('.lightbox__slider__controls__control--prev')[0];        
+        const sliderContainer = $(lightbox).find('.lightbox__slider__container')[0];
+        const sliderIndicator = $(lightbox).find('.slider__indicators')[0];
+        const sliderSlides = Array.from(lightbox.querySelectorAll('.lightbox__slider__slides'));        
+        
+        Lightboxex.push(new Lightbox(lightbox));         
+        Sliders.push(new Slider(nextBtn,prevBtn,sliderContainer,sliderIndicator,sliderSlides));        
+    });    
+
+    /*
+    ** **
+    ** ** * NAVIGATION
+    ** **
+    */
     $('#nav-btn').prop('checked', false);
     $('.container').on('click',function(e){
         oe = e.originalEvent.target;
@@ -18,7 +293,11 @@ $(document).ready(function(){
     });
 
     
-    //STARTING INTRO ANIMATION
+    /*
+    ** **
+    ** ** * INTRO SECTION ANIMATIONS
+    ** **
+    */
     var bpMedium = window.matchMedia("(max-width: 50rem)")
     if(!bpMedium.matches){
         //Book Starting Animation
@@ -36,7 +315,11 @@ $(document).ready(function(){
     } 
 
 
-    //Email
+    /*
+    ** **
+    ** ** * CONTACT FORM
+    ** **
+    */
     $('.contact__form').on('submit',function(e){
         e.preventDefault();
         var email = $('.contact__form__input-email').val();
@@ -46,159 +329,17 @@ $(document).ready(function(){
         $('.contact__form__input-email').val('')
         $('.contact__form__input-text').val('')
         $('.contact__form__input-message').val('');
-    });
+    });    
 
 
     /*
     ** **
-    ** ** ==> LIGHTBOX <==
+    ** ** * WINDOWS SCROLL EVENT - Throttle
     ** **
     */
-   var tools = {
-       1 : 'Html5',
-       2 : 'Css3',
-       3 : 'Sass',
-       4 : 'Bootstrap',
-       5 : 'Javascript',
-       6 : 'Jquery',
-       7 : 'Php',
-       8 : 'Mysql',
-       9 : 'Wordpress',
-       10: 'Java',
-       11: 'MsSql'
-   }
-    var projects = {
-        heading : ['JamesThew','Src Travel','Karnel Travel','Be Creative Ideads','Ryana Calendar','Natours','Trello'],
-        skills : [
-            [tools[1],tools[2],tools[4],tools[5],tools[6],tools[7],tools[8]],
-            [tools[10],tools[11]],
-            [tools[1],tools[2],tools[3],tools[5],tools[6],tools[7],tools[8]],
-            [tools[1],tools[2]],
-            [tools[1],tools[2],tools[5],tools[7],tools[8]],
-            [tools[1],tools[2],tools[3],tools[5],tools[7],tools[8]],
-            [tools[1],tools[2],tools[3],tools[5],tools[7],tools[8]]            
-        ],
-        imgs : [
-            ['project-1-img-1.png','project-1-img-2.png','project-1-img-3.png','project-1-img-4.png','project-1-img-5.png','project-1-img-6.png','project-1-img-7.png'],
-            ['project-2-img-1.png','project-2-img-2.png','project-2-img-3.png','project-2-img-4.png','project-2-img-5.png','project-2-img-6.png'],
-            ['project-3-img-1.jpg','project-3-img-2.jpg','project-3-img-3.jpg','project-3-img-4.jpg','project-3-img-5.jpg','project-3-img-6.jpg'],
-            ['project-4-img-1.png','project-4-img-2.png'],
-            ['project-5-img-1.png','project-5-img-2.png'],
-            ['project-6-img-1.png','project-6-img-2.png','project-6-img-3.png'],
-            ['project-7-img-1.png','project-7-img-2.png']            
-        ],        
-        text : [
-            'James Thew is one of the famous cook working in one of the five star hotels in the city. He is so famous that the publishers approach him to write recipes book, and provide some of the tips pertaining to the recipes, etc. Also some of the producers want him to work for their recipe shows where he needs to cook two or three recipes of different categories like juices, non-vegetarian and vegetarian recipes, Italian recipes, etc.',
-            'Src Travel is a Bus Ticket Reservation System desktop application where company can book tickets and record it\'s customers details very easily and efficiently in this softwares which provides all sorts of task like booking / cancelling tickets, inserting,updating deleting its customer details and employee details, buses they have, routes and routines of buses and much more in it.',
-            'Karnel Travels is a Tours and Travels Company which provides the various transportation facilities between the cities like tourist spots, transportation between different cities in the country, also provides accommodations in hotels, etc. Also they provide the online facility where the customers can visit online, view and order for the tours and as well the transportation. Now they want to provide a website, through which they wan to attract the customers. They want to reach out to the customers by providing various information services like the list of tourist spot, information about the various hotels and restaurants, etc. They want the website to be a URL Specific. So they approached us to build a website for them.',
-            'An email template beautifully designed with love and passion to give it the best look.',
-            'Ryana Calendar is serving its services since 2000. It has an up-dated library of latest calendar and diaries. The choice is exactly made upon the mood of customers.  It completely reflects the ideas, hobbies, and life style of customer. Its moto is encourage business firms to sell their products in a secured environment where they can meet the customer and fulfill their product diaries to make a strong relation',
-            'Natours is a tours and travels company that works with top service providers worldwide. We provide our clients with premium travel services including; the latest model vehicles for transfers, expert & well-mannered tour guides throughout the trips, selection of hotels based on high reviews along with quality locations, room sizes, meals and amenities. We have contracted with premium International Restaurants worldwide. We have special discounts with worldwide outlet malls, attractions, theme parks, cruise companies and train organizations in order to provide the finest trips to our customers. In addition to global reach, we are consistently forging and building strategic relationships with some of the most reputable airlines and hotels in order to provide our clients the highest value and service.',
-            'Trello is an all in one booking web app that lets you book five star hotels, get tickets of the best and cheapest flight, rent a car and go on tours with your friends and family. Trello is your travel companion, bring it with you wherever you\'re going and you\'ll never be alone again.'
-            
-        ]        
-    };   
-    //Open Lightbox
-    var stateImg = 0;
-    var btnLink = $('.showcase__show-all__grid__link');
-    btnLink.on('click',function(e){        
-        e.preventDefault();        
-        $('.lightbox').slideDown('fast');
-        $('.lightbox__content__details__wrap').addClass('fadeUp');
-        $('.lightbox__content__details__wrap').on('webkitAnimationEnd',function(){
-            $('.lightbox__content__details__wrap').css('opacity',1);
-        });
-        $('body').css('overflow','hidden');
-        var index = this.getAttribute('href')-1;
-        $('.lightbox__heading').text(projects.heading[index]);
-        var el = '';        
-        for(var i = 0; i < projects.skills[index].length; i++){
-            el += '<li class="lightbox__list__item">'+ projects.skills[index][i] +'</li> ';                        
-        }
-        $('.lightbox__list').html(el);           
-        var url = projects.imgs[index][0];                       
-        $('.lightbox__content__img img.slider').on('load',function(){
-            $('.lightbox__wrap').scrollTop(0);                                   
-        }).attr('src','Images/'+url);        
-        $('.lightbox__content__img img.slider').attr('data-img',index+1);
-        stateImg = 0;
-        $('.lightbox__text').text(projects.text[index]);    
-        
-        var pagers = '';
-        for(var i = 0; i < projects.imgs[index].length; i++){
-            var a = i + 1;
-            pagers += ('<li class="lightbox__content__img-slider-pager__list__item">'+ a +'</li> ');
-        }
-        $('.lightbox__content__img-slider-pager__list').html(pagers);
-        $('.lightbox__content__img-slider-pager__list__item:eq(0)').addClass('pager-active');    
-        $('.lightbox__content__img-slider-pager__list li').on('click', function(e){
-            var index = $(this).text() - 1;
-            slideImageHandler(index);
-        });                  
-    });
-
-    //Lightbox = NEXT / PREVIOUS BUTTON      
-    $('.lightbox__content__img__prev-btn').on('click',function(e){                     
-        slideImageHandler('prev')        
-    });    
-    $('.lightbox__content__img__next-btn').on('click',function(){
-        slideImageHandler('next')        
-    });    
-
-    //Lightbox Slider Handler
-    var slideImageHandler = function(action){        
-        $('.lightbox__content__img img.slider').fadeOut('slow',function(){
-            var data = $('.lightbox__content__img img').on('load',function(){
-                $('.lightbox__content__img img').fadeIn('slow');                            
-            }).attr('data-img') - 1;                            
-            
-            var url = '';
-            //Next Clicked
-            if(action == 'next'){
-                if(stateImg == projects.imgs[data].length - 1){
-                    stateImg = 0;
-                    stateImg--;
-                }
-                url = projects.imgs[data][++stateImg];     
-            }
-
-            //Prev Clicked
-            else if(action == 'prev'){
-                if(stateImg == 0){
-                    stateImg = projects.imgs[data].length - 1;
-                    stateImg++;
-                }
-                url = projects.imgs[data][--stateImg];     
-            }
-
-            //Pager Clicked
-            else{
-                stateImg = action;                
-                url = projects.imgs[data][stateImg];     
-            }               
-
-            //Change Image Now
-            $('.lightbox__content__img img').attr('src','Images/'+url);                                                
-
-            //Pager Active
-            $('.pager-active').removeClass('pager-active');
-            $('.lightbox__content__img-slider-pager__list__item:eq('+stateImg+')').addClass('pager-active');
-        });        
-    }
-    
-
-    //Close Lightbox    
-    $('.lightbox__close, .lightbox__bg').on('click',function(e){
-        e.preventDefault();
-        $('.lightbox').fadeOut('slow');  
-        $('.lightbox__content__details__wrap').css('opacity',0);
-        $('body').css('overflow','visible'); 
-    });    
-
-
     //Throttling Window Scroll
     var scrollTimeout;
-    var throttle = 250;    
+    var throttle = 350;    
     $(window).on('scroll', function () {
         if (!scrollTimeout) {
             scrollTimeout = setTimeout(function () {                
@@ -224,14 +365,24 @@ $(document).ready(function(){
         }        
     });
 
-    //WINDOWS SCROLL EVENT LISTENER
+    /*
+    ** **
+    ** ** * WINDOW RESIZE & SCROLL EVENT
+    ** **
+    */
     $(window).on('resize scroll',function(){      
 
+        //Resize Lightbox
+        Sliders.forEach(curr=>{
+            curr.resize();
+        });
+
+        //Remove animations for smaller devices
         if(!bpMedium.matches){
 
             /*
             ** **
-            ** ** ==> INTRODUCTION SECTION ANIMATIONS <==
+            ** ** * INTRO SECTION ANIMATIONS
             ** **
             */
             //Book Animation - adds and removes book classes on scroll
@@ -256,10 +407,10 @@ $(document).ready(function(){
 
             /*
             ** **
-            ** ** ==> SKILL SECTION ANIMATIONS <==
+            ** ** * SKILLS SECTION ANIMATIONS
             ** **
             */
-        //Checks if skills is visible
+            //Checks if skills is visible
             if(this.isInView('.skills')){
                 // New Start for ScrollY for New Section
                 var skillsStart = window.scrollY - $('.skills').offset().top;
@@ -340,6 +491,12 @@ $(document).ready(function(){
             }
 
         } else{            
+
+            /*
+            ** **
+            ** ** * REMOVE ALL ANIMATIONS ON SMALLER SCREENS
+            ** **
+            */
             //Introduction - Defaults       
             $('.intro__left').css("margin-top", '5vh');            
             $('.intro__right').css("margin-top",  '');             
@@ -363,9 +520,12 @@ $(document).ready(function(){
      $("html, body").animate({scrollTop: top-1},'fast');
 });
 
+
+
+
 //Checks if an element is currently in viewport
 var isInView = function(el){
-    var offsetTop = $(el).offset().top;        
+    var offsetTop = $(el).offset().top + 200;        
     var offsetBot = offsetTop + $(el).outerHeight();        
 
     var viewportTop = $(window).scrollTop();
@@ -374,3 +534,6 @@ var isInView = function(el){
     return offsetBot > viewportTop && offsetTop < viewportBot;
         
 }
+
+
+

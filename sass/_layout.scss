@@ -1,0 +1,58 @@
+.container{    
+    margin: 0 auto;      
+}
+.header{
+    width: 100%;        
+    display: flex;    
+    justify-content: flex-end;       
+    text-align: center;        
+
+}
+.navigation{
+	width: 5rem;
+	height: 100vh;
+	display: flex;
+	position: fixed;	
+	background: transparent;
+	z-index: 20;
+	overflow: hidden;	
+	transition: all .6s $funcExponent;
+	@media screen and( max-width: $bpSmall){		
+		transition: all .1s ease;
+	}
+}
+.introduction{				
+	height: 100vh;	
+	overflow: hidden;	
+	background-image: linear-gradient(
+		to right bottom,
+		$colorIntroPrimary,
+		$colorIntroSecondary);			
+}
+.services{
+	width: 100%;
+	min-height: 100vh;	
+	background: $colorGreyLight;
+	text-align: center;
+}
+.work{
+	width: 100%;
+	min-height: 300vh;
+	@media only screen and(max-width: $bpSmall){
+		min-height: 480vh;
+	}
+}
+.about{
+	width: 100%;
+	min-height: 100vh;	
+	background-color: $colorGreyLight;	
+}
+.footer{
+	width: 100%;
+	min-height: 100vh;
+	background-image: linear-gradient(
+		to bottom,
+		$colorPrimary,
+		$colorGreyLight	80%,		
+	);	
+}

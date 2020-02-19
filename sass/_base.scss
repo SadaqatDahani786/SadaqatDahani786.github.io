@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;    
+}
+html{    
+    font-family: 'Lobster Two', sans serif;    
+    font-size: 62.5%;       
+    @media only screen and(max-width:$bpLarge){
+        font-size: 45%;               
+    }
+    @media only screen and(max-width:$bpMedium){
+        font-size: 40%;                                     
+    }
+    
+    box-sizing: border-box;
+    scroll-behavior: smooth;    
+}
+.container{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+::selection{
+	color: $colorWhite;
+	background: $colorPrimary;	
+}
