@@ -4,19 +4,22 @@
 ** **
 */
 class Slider{
-    constructor(nextButton,prevButton,sliderContainer,sliderIndicator,sliderSlides){
+    constructor(nextButton,prevButton,sliderContainer,sliderIndicator,sliderSlides,lightbox){
         //Elements
         this.nextButton = nextButton;
         this.prevButton = prevButton;
         this.sliderContainer = sliderContainer;
         this.sliderIndicator = sliderIndicator;
         this.sliderSlides = sliderSlides;        
+        this.lightbox = lightbox;
+        this.spinner;
 
         //State
         this.boxPerSlide = 1;
         this.currSlide = 1;            
         this.totalSlides = this.sliderSlides.length;
         this.zoomToggle = true;
+        this.isLoading = false;
 
         //Events
         this.events();
@@ -32,7 +35,28 @@ class Slider{
         this.sliderSlides.forEach(curr=>{
             curr.addEventListener('click',this.zoom.bind(this));
         });
-        this.resize();                
+        this.resize();                        
+    }
+
+    //INIT - Load The First Image
+    init(){        
+        //Add Loading Spinner
+        this.spinner = document.createElement("div");
+        this.spinner.classList.add('lds-spinner-wrapper');
+        this.spinner.insertAdjacentHTML('beforeend','<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>');
+        this.sliderSlides[this.currSlide].insertAdjacentElement('beforeend',this.spinner);
+
+        //Load Current Image
+        const src1 = this.sliderSlides[this.currSlide].children[0].getAttribute('data-src');
+        this.sliderSlides[this.currSlide].children[0].setAttribute('src',src1);        
+        this.sliderSlides[this.currSlide].children[0].addEventListener('load',this.loaded.bind(this));        
+        this.isLoading = true;
+        this.sliderSlides[(this.totalSlides + 1)].children[0].setAttribute('src',src1);        
+
+        //Load Previous Image
+        const src2 = this.sliderSlides[this.totalSlides].children[0].getAttribute('data-src');        
+        this.sliderSlides[0].children[0].setAttribute('src',src2);        
+        this.sliderSlides[this.totalSlides].children[0].setAttribute('src',src2);                   
     }
 
     //Zoom Effect
@@ -69,18 +93,37 @@ class Slider{
         e.preventDefault(); 
         
         //Check for slides
-        if(this.currSlide >= (this.totalSlides + 1)){
+        if(this.currSlide >= (this.totalSlides + 1) || this.isLoading){
             return;
         }               
 
         //RemoveZoom
-        this.zoom_default();
+        this.zoom_default();        
+
+        //Add Loading Spinner
+        this.spinner = document.createElement("div");
+        this.spinner.classList.add('lds-spinner-wrapper');
+        this.spinner.insertAdjacentHTML('beforeend','<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>');
+        this.sliderSlides[this.currSlide].insertAdjacentElement('beforeend',this.spinner);
         
         //Slide To Next
         this.sliderContainer.classList.add('smooth-container');
-        this.currSlide++;        
-        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';                        
+        this.currSlide++;   
         
+        if(this.currSlide < (this.totalSlides + 1)){
+            for(let  i = 0; i < this.sliderSlides[this.currSlide].children.length; i++){
+                if(this.sliderSlides[this.currSlide].children[i].nodeName == "IMG"){
+                    const src = this.sliderSlides[(this.currSlide)].children[i].getAttribute('data-src');            
+                    this.sliderSlides[this.currSlide].children[i].addEventListener('load',this.loaded.bind(this,'next'));            
+                    this.sliderSlides[this.currSlide].children[i].setAttribute('src',src);                                                   
+                    this.isLoading = true;
+                    break; 
+                }                
+            }               
+        }else{
+            this.isLoading = true;
+            this.loaded();    
+        }        
     }
 
     //Prev Slide
@@ -88,17 +131,46 @@ class Slider{
         e.preventDefault();                      
 
         //Check for slides
-        if(this.currSlide <= 0){
+        if(this.currSlide <= 0 || this.isLoading == true){
             return;
         }
 
-        //Remove Zoom
-        this.zoom_default();
+        // Remove Zoom        
+        this.zoom_default();        
+
+        //Add Loading Spinner
+        this.spinner = document.createElement("div");
+        this.spinner.classList.add('lds-spinner-wrapper');
+        this.spinner.insertAdjacentHTML('beforeend','<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>');
+        this.sliderSlides[this.currSlide].insertAdjacentElement('beforeend',this.spinner);        
         
         //Slide To Previous
         this.sliderContainer.classList.add('smooth-container');
         this.currSlide--;
-        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';                
+
+        if(this.currSlide > 0){             
+            for(let  i = 0; i < this.sliderSlides[this.currSlide].children.length; i++){
+                if(this.sliderSlides[this.currSlide].children[i].nodeName == "IMG"){
+                    const src = this.sliderSlides[(this.currSlide)].children[i].getAttribute('data-src');            
+                    this.sliderSlides[this.currSlide].children[i].addEventListener('load',this.loaded.bind(this));            
+                    this.sliderSlides[this.currSlide].children[i].setAttribute('src',src);                                                   
+                    this.isLoading = true
+                    break; 
+                }                
+            }               
+        }else{                     
+            this.isLoading = true;
+            this.loaded();
+        }                     
+    }
+
+    //Loaded Image
+    loaded(){                        
+        if(this.spinner.parentNode != null){
+            this.spinner.parentNode.removeChild(this.spinner);               
+        }                                                              
+        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';                                                
+        this.isLoading = false;             
     }
 
     //Transition
@@ -140,7 +212,7 @@ class Slider{
         slideElFirstClone.classList.add('first-clone');
 
         //Append - First Clone
-        slideElFirstCloneImg.setAttribute('src',slideElFirstCloneImgSrc);
+        // slideElFirstCloneImg.setAttribute('data-src',slideElFirstCloneImgSrc);
         slideElFirstClone.appendChild(slideElFirstCloneImg);
         this.sliderSlides.push(slideElFirstClone);
         
@@ -154,7 +226,7 @@ class Slider{
         slideElLastClone.classList.add('last-clone');
 
         //Append - Last Clone
-        slideElLastCloneImg.setAttribute('src',slideElLastCloneImgSrc);
+        // slideElLastCloneImg.setAttribute('data-src',slideElLastCloneImgSrc);
         slideElLastClone.appendChild(slideElLastCloneImg);
         this.sliderSlides.unshift(slideElLastClone);
     
@@ -201,12 +273,15 @@ class Slider{
 ** **
 */
 class Lightbox{
-    constructor(lightbox){
+    constructor(lightbox,slider){
         //Elements
         this.lightbox = lightbox;                        
         this.openButton = document.querySelector(`.showcase__show-all__grid__link[data-target="#${this.lightbox.getAttribute('id')}"]`);                
         this.closeButton = $(lightbox).find('.lightbox__close')[0];
         this.closeBg = $(lightbox).find('.lightbox__bg')[0];        
+        this.slider = slider;
+
+        //State
 
         //events
         this.events();
@@ -219,11 +294,13 @@ class Lightbox{
         this.closeBg.addEventListener('click', this.hide.bind(this));
     }
 
+
     //Show Lightbox
     show(e){
         e.preventDefault();
         $(this.lightbox).fadeIn('fast');
-        $(document.body).css('overflow','hidden');
+        $(document.body).css('overflow','hidden');        
+        this.slider.init();
     }
 
     //Hide Lightbox
@@ -240,9 +317,29 @@ class Lightbox{
 ** ** * DOCUMENT START
 ** **
 */
-$(document).ready(function(){    
-    var status = true;    
+$(document).ready(function(){        
     var statusCheckbox = true;       
+
+
+    
+    /*
+    ** **
+    ** ** * INIT LIGHTBOX AND SLIDER LISTENERS
+    ** **
+    */
+    const Sliders = [];    
+    const Lightboxex = [];
+    document.querySelectorAll('.lightbox').forEach(function(lightbox){        
+        
+        const nextBtn = $(lightbox).find('.lightbox__slider__controls__control--next')[0];
+        const prevBtn = $(lightbox).find('.lightbox__slider__controls__control--prev')[0];        
+        const sliderContainer = $(lightbox).find('.lightbox__slider__container')[0];
+        const sliderIndicator = $(lightbox).find('.slider__indicators')[0];
+        const sliderSlides = Array.from(lightbox.querySelectorAll('.lightbox__slider__slides'));        
+        
+        Sliders.push(new Slider(nextBtn,prevBtn,sliderContainer,sliderIndicator,sliderSlides));        
+        Lightboxex.push(new Lightbox(lightbox,Sliders[Sliders.length - 1]));                 
+    });    
 
     /*
     ** **
@@ -254,24 +351,33 @@ $(document).ready(function(){
         this.remove();        
     });
 
+
     /*
     ** **
-    ** ** * LIGHTBOXEX AND IMAGE SLIDERS
+    ** ** * LOGOBOXEX ANIMATION
     ** **
     */
-    const Sliders = [];    
-    const Lightboxex = [];
-    document.querySelectorAll('.lightbox').forEach(function(lightbox){        
-
-        const nextBtn = $(lightbox).find('.lightbox__slider__controls__control--next')[0];
-        const prevBtn = $(lightbox).find('.lightbox__slider__controls__control--prev')[0];        
-        const sliderContainer = $(lightbox).find('.lightbox__slider__container')[0];
-        const sliderIndicator = $(lightbox).find('.slider__indicators')[0];
-        const sliderSlides = Array.from(lightbox.querySelectorAll('.lightbox__slider__slides'));        
-        
-        Lightboxex.push(new Lightbox(lightbox));         
-        Sliders.push(new Slider(nextBtn,prevBtn,sliderContainer,sliderIndicator,sliderSlides));        
-    });    
+    let io = new IntersectionObserver(function(entries,observer){
+        entries.forEach(function(entry){            
+            if(entry.isIntersecting){                                      
+                const targetChild = $(entry.target).find('.anim-in');                
+                for(let i = 0; i < targetChild.length; i++){
+                    setTimeout(function(){
+                        $(targetChild[i]).addClass('anim-in-animate');                                                          
+                        $(targetChild[i]).css('box-shadow', '0 2rem 4rem rgba(0,0,0,.5)');                        
+                        $(targetChild[i]).on('webkitAnimationEnd',function(){                            
+                            $(targetChild[i]).css('visiblity','visible');                 
+                            $(targetChild[i]).css('box-shadow', 'none');                                                      
+                        });
+                   }, i * 300);     
+                }                               
+                observer.disconnect();
+            }            
+        });
+    });
+    const showAllGrid = document.querySelector('.showcase__show-all__grid');    
+    io.observe(showAllGrid);
+    
 
     /*
     ** **
@@ -329,34 +435,47 @@ $(document).ready(function(){
         $('.contact__form__input-email').val('')
         $('.contact__form__input-text').val('')
         $('.contact__form__input-message').val('');
-    });    
+    });        
 
 
     /*
     ** **
-    ** ** * WINDOWS SCROLL EVENT - Throttle
+    ** ** * ACTIVE NAV LINK
     ** **
     */
     //Throttling Window Scroll
     var scrollTimeout;
     var throttle = 350;    
-    $(window).on('scroll', function () {
-        if (!scrollTimeout) {
-            scrollTimeout = setTimeout(function () {                
 
-                //ACTIVE NAVIGATION LINK
-                var arr = ['#INTRODUCTION','#SERVICES','#WORK','#ABOUT-ME','#CONTACT'];
-                var ind = 0;
-                for(var i = 0; i < arr.length; i++){                
-                    if(isInView( $( arr[i] ) ) ){
-                        ind = i;
-                    }            
-                }    
-                $('.nav__list__item').each(function(index, el){
-                    if(ind == index){
-                        $(el).addClass('nav__list__item-active');
-                    }else{
-                        $(el).removeClass('nav__list__item-active');
+    // const ioNavActive = new IntersectionObserver((entries, obsrerver)=>{
+    //     entries.forEach(entry=>{            
+    //         if(isInView(entry.target)){            
+    //             console.log(entry.target.getAttribute('id'));
+    //             const navItemActive = document.querySelector('.nav__list__item-active');
+    //             if(navItemActive != null) navItemActive.classList.remove('nav__list__item-active');
+
+    //             const navItemUnactive = document.querySelector(`.nav__link[href="#${entry.target.getAttribute('id')}"]`).parentElement;
+    //             navItemUnactive.classList.add('nav__list__item-active');                
+    //         }
+    //     });      
+    // });
+    const navLinks = document.querySelectorAll('#INTRODUCTION, #SERVICES, #WORK, #ABOUT-ME, #CONTACT');
+    // navLinks.forEach(currLink=>{
+    //     ioNavActive.observe(currLink);
+    // });
+
+    $(window).on('scroll', function () {        
+        if (!scrollTimeout) {            
+            scrollTimeout = setTimeout(function () {                
+                
+                //Add Active Link If Section Is In View
+                navLinks.forEach(currLink=>{                    
+                    if(isInView(currLink)){
+                        const navItemActive = document.querySelector('.nav__list__item-active');
+                        if(navItemActive != null) navItemActive.classList.remove('nav__list__item-active');
+
+                        const navItemUnactive = document.querySelector(`.nav__link[href="#${currLink.getAttribute('id')}"]`).parentElement;
+                        navItemUnactive.classList.add('nav__list__item-active');                                        
                     }
                 });
 
@@ -367,18 +486,30 @@ $(document).ready(function(){
 
     /*
     ** **
+    ** ** * LightboxResize
+    ** **
+    */   
+    let lightboxResize;    
+    $(window).on('resize',function(){
+            clearTimeout(lightboxResize);
+            lightboxResize = window.setTimeout(function(){
+            //Resize Lightbox
+            Sliders.forEach(curr=>{
+                curr.resize();
+                
+            });            
+        },300);
+    });
+    
+    /*
+    ** **
     ** ** * WINDOW RESIZE & SCROLL EVENT
     ** **
-    */
-    $(window).on('resize scroll',function(){      
-
-        //Resize Lightbox
-        Sliders.forEach(curr=>{
-            curr.resize();
-        });
+    */    
+    $(window).on('resize scroll',function(){              
 
         //Remove animations for smaller devices
-        if(!bpMedium.matches){
+        if(!bpMedium.matches){                        
 
             /*
             ** **
@@ -469,26 +600,7 @@ $(document).ready(function(){
                 $('.showcase__show-all__heading').css("opacity", Math.min(1.4 + .002*showAllStart, 1));
                 var scaleText = Math.min(Math.max(0 - 0.002*showAllStart, 1),1.6);      
                 $('.showcase__show-all__heading').css("transform","scale3d("+scaleText+","+ scaleText +",1)");        
-            }
-            
-            //LogoBoxex Animation
-            var logoBoxex = $('.showcase__show-all__grid');
-            if(this.isInView(logoBoxex)){                                
-                if(status){
-                    $('.anim-in').each(function(ind,el){                                                                                                                    
-                        var elem = this;
-                        setTimeout(function(){
-                            $(elem).addClass('anim-in-animate');                                                          
-                            $(elem).css('box-shadow', '0 2rem 4rem rgba(0,0,0,.5)');                        
-                            $(elem).on('webkitAnimationEnd',function(){
-                                $(elem).css('visiblity','visible');                 
-                                $(elem).css('box-shadow', '');                                                      
-                            });
-                        }, ind * 300);                    
-                    });
-                    status = false;
-                }                
-            }
+            }           
 
         } else{            
 
@@ -525,7 +637,7 @@ $(document).ready(function(){
 
 //Checks if an element is currently in viewport
 var isInView = function(el){
-    var offsetTop = $(el).offset().top + 200;        
+    var offsetTop = $(el).offset().top + 100;        
     var offsetBot = offsetTop + $(el).outerHeight();        
 
     var viewportTop = $(window).scrollTop();
@@ -534,6 +646,3 @@ var isInView = function(el){
     return offsetBot > viewportTop && offsetTop < viewportBot;
         
 }
-
-
-
