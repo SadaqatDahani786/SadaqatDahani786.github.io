@@ -12,7 +12,7 @@
   box-sizing: inherit; }
 
 html {
-  font-family: 'Lobster Two', sans serif;
+  font-family: 'Philosopher', sans-serif;
   font-size: 62.5%;
   box-sizing: border-box;
   scroll-behavior: smooth; }
@@ -134,7 +134,7 @@ html {
   /*Button primary and Button Seconday Styles*/
   /*Sizes*/ }
   .btn, .btn:link, .btn:visited {
-    font-family: 'Great Vibes', cursive;
+    font-family: 'Federant', serif;
     font-size: 3rem;
     font-weight: 100;
     text-decoration: none;
@@ -177,12 +177,14 @@ html {
   .btn.btn-secondary::after {
     background: linear-gradient(to right bottom, #f2f2f2, #fff); }
   .btn.btn-primary-bg {
+    font-family: 'Philosopher',serif;
     color: #fff; }
     .btn.btn-primary-bg::after {
       height: 100%;
       z-index: -1;
       border-radius: 3rem; }
   .btn.btn-secondary-bg {
+    font-family: 'Philosopher',serif;
     color: #000; }
     .btn.btn-secondary-bg::after {
       height: 100%;
@@ -229,19 +231,61 @@ html {
   .contact__form {
     align-self: center;
     width: 80%; }
+    .contact__form__group {
+      position: relative;
+      margin-top: 2rem; }
+      .contact__form__group__label {
+        position: absolute;
+        top: 0;
+        left: 1.5rem;
+        padding: 0 .5rem;
+        background-color: #ded5c4;
+        color: #fff;
+        font-size: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
     .contact__form__input-text, .contact__form__input-email, .contact__form__input-message {
       width: 100%;
       padding: 2rem 0;
+      color: #000;
       background-color: transparent;
       border: none;
-      margin-bottom: 1rem;
       border-radius: 5px;
-      border-bottom: 2px solid #ff0052; }
+      border-bottom: 2px solid #ff0052;
+      outline: none; }
     .contact__form__input-text::placeholder, .contact__form__input-email::placeholder, .contact__form__input-message::placeholder {
       font-size: 1.8rem;
-      font-weight: 100; }
+      font-weight: 100;
+      color: transparent; }
+    .contact__form__input-text:placeholder-shown ~ label,
+    .contact__form__input-email:placeholder-shown ~ label,
+    .contact__form__input-message:placeholder-shown ~ label {
+      top: 50%;
+      left: .5rem;
+      font-size: 1.5rem;
+      transform: translateY(-50%); }
     .contact__form__input-text:focus, .contact__form__input-email:focus, .contact__form__input-message:focus {
-      box-shadow: 0 2rem 6rem rgba(2, 2, 2, 0.12); }
+      border: 2px solid #ff0052; }
+    .contact__form__input-text:focus ~ label,
+    .contact__form__input-email:focus ~ label,
+    .contact__form__input-message:focus ~ label {
+      top: -5%;
+      left: .5rem; }
+    .contact__form__input-text:required {
+      outline: none !important;
+      box-shadow: none !important; }
+    .contact__form__input-text:valid ~ label,
+    .contact__form__input-email:valid ~ label,
+    .contact__form__input-message:valid ~ label {
+      left: .5rem;
+      top: -10%;
+      color: green;
+      font-size: 1.5rem; }
+    .contact__form__input-text:valid, .contact__form__input-email:valid, .contact__form__input-message:valid {
+      border: 1px solid green; }
+    .contact__form__input-text:invalid, .contact__form__input-email:invalid, .contact__form__input-message:invalid {
+      border: 1px solid #ff0052;
+      box-shadow: none !important;
+      outline: none !important; }
     .contact__form__input-message {
       padding: 3.5rem 0; }
     .contact__form__submit-button {
@@ -365,7 +409,7 @@ html {
         left: 0; }
   .lightbox__close {
     position: absolute;
-    top: -15px;
+    top: 0;
     right: 0;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 600;
@@ -467,11 +511,12 @@ html {
 ** **
 */
 h2.section-heading {
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Federant', serif;
+  text-decoration: underline;
   font-size: 3.5rem;
   display: inline-block;
-  font-weight: 100;
   text-transform: capitalize;
+  font-weight: normal;
   /*padding: 5rem 2rem;*/
   position: relative; }
   h2.section-heading::before {
@@ -530,8 +575,7 @@ h2.section-heading {
       font-size: 3rem; } }
   .intro__heading__intro {
     display: block;
-    font-size: 3.5rem;
-    font-weight: 100;
+    font-size: 10rem;
     text-transform: capitalize; }
   .intro__heading__hi {
     font-size: 10rem;
@@ -543,37 +587,24 @@ h2.section-heading {
       .intro__heading__hi {
         font-size: 6rem; } }
   .intro__heading__text {
-    font-size: 2.6rem;
-    letter-spacing: 1.3rem;
     transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
   .intro__heading__i {
-    font-size: 10rem;
+    font-size: 6rem;
+    font-weight: normal;
     transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
-    @media only screen and (max-width: 50rem) {
-      .intro__heading__i {
-        font-size: 8rem; } }
-    @media only screen and (max-width: 37.5rem) {
-      .intro__heading__i {
-        font-size: 6rem; } }
   .intro__heading__style {
-    font-size: 3.6rem;
-    letter-spacing: 1.3rem;
-    margin-top: -3.5rem;
     display: flex;
-    color: transparent;
-    background-image: linear-gradient(to right bottom, #ec006f, #ff0052);
-    -webkit-background-clip: text;
-    background-clip: text;
     transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
     @media only screen and (max-width: 50rem) {
       .intro__heading__style {
         justify-content: center; } }
     .intro__heading__style .and {
-      font-size: 10rem;
+      padding: 0 2rem;
+      color: black;
       transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
     .intro__heading__style .style {
-      align-self: center;
-      font-weight: bolder; }
+      color: #ff0052;
+      font-weight: bold; }
   .intro__heading__animate {
     transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
 
@@ -607,14 +638,14 @@ h2.section-heading {
 ** **
 */
 h3.showcase__left__heading {
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Federant', serif;
   font-size: 5.5rem;
   font-weight: 300;
   text-transform: capitalize; }
 
 p.showcase__left__text {
   color: black;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: 100;
   text-transform: capitalize; }
   @media only screen and (max-width: 37.5rem) {
@@ -624,10 +655,14 @@ p.showcase__left__text {
 h4.showcase__right__heading {
   font-size: 3rem;
   font-weight: 200;
+  font-size: 10rem;
   text-transform: capitalize; }
+  @media only screen and (max-width: 37.5rem) {
+    h4.showcase__right__heading {
+      margin-top: 15%; } }
 
 p.showcase__right__text {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 200;
   padding: 2rem 0 5rem 0;
   width: 90%; }
@@ -637,7 +672,6 @@ p.showcase__right__text {
       font-size: 2.5rem; } }
 
 h4.showcase__show-all__heading {
-  font-family: 'Great Vibes', cursive;
   font-size: 10rem;
   font-weight: bold;
   text-align: center;
@@ -680,14 +714,15 @@ h5.slider__heading {
     text-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.5); }
   .about__myself__sub-heading {
     font-size: 5rem;
-    font-weight: 100;
-    letter-spacing: -.2rem;
+    font-weight: 600;
+    letter-spacing: -.3rem;
     margin-top: 2.5rem; }
   .about__myself__sub-heading-top {
     font-size: 7rem;
-    margin-top: 1rem; }
+    margin-top: 1rem;
+    font-weight: 600; }
   .about__myself__detail {
-    font-size: 1.7rem;
+    font-size: 2rem;
     padding-right: 5rem;
     line-height: 1.4; }
     .about__myself__detail:not(:last-child) {
@@ -720,7 +755,7 @@ p.copyright__text {
 a.footer__link {
   text-decoration-color: currentColor;
   color: white;
-  font-family: "Great Vibes", cursive; }
+  font-family: Federant, serif; }
 
 .lightbox__heading {
   font-size: 4rem;
@@ -876,6 +911,8 @@ a.footer__link {
       .nav__link:hover {
         background-color: #f2f2f2;
         color: #000; } }
+    .nav__link:hover svg {
+      fill: #fff; }
   .nav__link__icon {
     width: 5rem; }
   .nav__link__text {
@@ -984,7 +1021,7 @@ a.footer__link {
 .skills {
   width: 100%;
   height: 95vh;
-  margin-top: 10vh;
+  margin-top: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly; }
@@ -1162,12 +1199,6 @@ a.footer__link {
             padding: 0 6rem; } }
         .showcase__flexbox__right__textbox h2.showcase__heading {
           padding: 2rem 0; }
-        .showcase__flexbox__right__textbox h4.showcase__right__heading {
-          font-size: 10rem;
-          font-family: Lobster two; }
-          @media only screen and (max-width: 37.5rem) {
-            .showcase__flexbox__right__textbox h4.showcase__right__heading {
-              margin-top: 15%; } }
         .showcase__flexbox__right__textbox > .showcase__right__list {
           font-size: 1.6rem;
           font-weight: 500;

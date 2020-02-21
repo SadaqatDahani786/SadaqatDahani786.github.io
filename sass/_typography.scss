@@ -4,11 +4,12 @@
 ** **
 */
 h2.section-heading{
-	font-family: 'Great Vibes', cursive;
+	font-family: 'Federant', serif;
+	text-decoration: underline;
 	font-size: $fontSizeSectionHeading;
-	display: inline-block;
-	font-weight: 100;
-	text-transform: capitalize;		
+	display: inline-block;	
+	text-transform: capitalize;	
+	font-weight: normal;
 	/*padding: 5rem 2rem;*/
 	@include lineTop;	
 	@media screen and(max-width: $bpSmall){		
@@ -51,7 +52,7 @@ h2.section-heading{
 	display: flex;
 	flex-direction: column;	
 	align-content: center;				
-	overflow: hidden;	
+	overflow: hidden;		
 	@media only screen and(max-width: $bpSmall){
 		font-size: 3rem;
 	}
@@ -59,8 +60,7 @@ h2.section-heading{
 	/*Formatting text individually*/
 	&__intro{					
 	    display: block;			    
-		font-size: $fontSizeSectionHeading;					
-		font-weight: 100;							
+		font-size: 10rem;									
 		text-transform: capitalize;								
 	}
 	&__hi{					
@@ -73,45 +73,28 @@ h2.section-heading{
 			font-size: 6rem;
 		}		
 	}
-	&__text{																			
-	    font-size: 2.6rem;			
-		letter-spacing: 1.3rem;	
+	&__text{																				    				
 		transition: $tranShortEase;			
 	}
 	&__i{
-		font-size: 10rem;					
-		transition: $tranShortEase;		
-		@media only screen and(max-width: $bpMedium){
-			font-size: 8rem;
-		}	
-		@media only screen and(max-width: $bpSmall){
-			font-size: 6rem;
-		}		
+		font-size: 6rem;					
+		font-weight: normal;
+		transition: $tranShortEase;				
 	}	
-	&__style{
-		font-size: 3.6rem;		
-		letter-spacing: 1.3rem;
-		margin-top: -3.5rem;
-		display: flex;	
-		color: transparent;	
-		background-image: linear-gradient(
-			to right bottom,
-			$colorPrimaryLight,
-			$colorPrimary			
-		);
-		-webkit-background-clip: text;	
-		background-clip: text;						
-		transition: $tranShortEase;	
+	&__style{								
+		display: flex;			
+		transition: $tranShortEase;			
 		@media only screen and(max-width: $bpMedium){
 			justify-content: center;
 		}		
 		.and{
-			font-size: 10rem;	
+			padding: 0 2rem;			
+			color: black;
 			transition: $tranShortEase;			
 		}
-		.style{			    	
-			align-self: center;			
-			font-weight: bolder;														
+		.style{			    				
+			color: $colorPrimary;
+			font-weight: bold;
 		}
 
 	}	
@@ -158,14 +141,14 @@ h2.section-heading{
 ** **
 */	
 h3.showcase__left__heading{	
-	font-family: 'Great Vibes', cursive;
+	font-family: 'Federant', serif;
 	font-size: 5.5rem;
 	font-weight: 300;
 	text-transform: capitalize;	
 }
 p.showcase__left__text{	
 	color: black;
-	font-size: $fontSizeParagraph;
+	font-size: $fontSizeBigParagraph;
 	font-weight: 100;	
 	text-transform: capitalize;	
 	@media only screen and(max-width: $bpSmall){		
@@ -174,8 +157,12 @@ p.showcase__left__text{
 }
 h4.showcase__right__heading{
 	font-size: 3rem;
-	font-weight: 200;
+	font-weight: 200;		
+	font-size: 10rem;
 	text-transform: capitalize;			
+	@media only screen and(max-width: $bpSmall){
+		margin-top: 15%;						
+	}	
 }
 p.showcase__right__text{
 	font-size: $fontSizeParagraph;
@@ -187,8 +174,7 @@ p.showcase__right__text{
 		font-size: $fontSizeBigParagraph;									
 	}
 }
-h4.showcase__show-all__heading{				
-	font-family: 'Great Vibes', cursive;
+h4.showcase__show-all__heading{					
 	font-size: 10rem;	
 	font-weight: bold;
 	text-align: center;		
@@ -233,16 +219,17 @@ h5.slider__heading{
 	}	
 	&__sub-heading{
 		font-size: 5rem;			
-		font-weight: 100;
-		letter-spacing: -.2rem;
+		font-weight: 600;
+		letter-spacing: -.3rem;
 		margin-top: 2.5rem;
 	}
 	&__sub-heading-top{
-		font-size: 7rem;
+		font-size: 7rem;		
 		margin-top: 1rem;
+		font-weight: 600;
 	}
 	&__detail{
-		font-size: 1.7rem;
+		font-size: $fontSizeParagraph;
 		padding-right: 5rem;
 		line-height: 1.4;
 		&:not(:last-child){
@@ -280,7 +267,7 @@ p.copyright__text{
 a.footer__link{
 	text-decoration-color: currentColor ;
 	color: white;	
-	font-family: "Great Vibes", cursive;
+	font-family: Federant, serif;
 }
 
 

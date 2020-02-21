@@ -320,8 +320,6 @@ class Lightbox{
 $(document).ready(function(){        
     var statusCheckbox = true;       
 
-
-    
     /*
     ** **
     ** ** * INIT LIGHTBOX AND SLIDER LISTENERS
@@ -369,7 +367,7 @@ $(document).ready(function(){
                             $(targetChild[i]).css('visiblity','visible');                 
                             $(targetChild[i]).css('box-shadow', 'none');                                                      
                         });
-                   }, i * 300);     
+                   }, i * 100);     
                 }                               
                 observer.disconnect();
             }            
@@ -544,10 +542,10 @@ $(document).ready(function(){
             //Checks if skills is visible
             if(this.isInView('.skills')){
                 // New Start for ScrollY for New Section
-                var skillsStart = window.scrollY - $('.skills').offset().top;
-                //Text Animation - Moves left and right on scroll
-                $('.skills__top, .skills__bottom').css("margin-left", Math.min(0 + 0.2*skillsStart, 20*5) + "px");
-                $('.skills__mid').css("margin-left", Math.max(0 - 0.2*skillsStart, -20*5) + "px");                        
+                // var skillsStart = window.scrollY - $('.skills').offset().top;
+                // //Text Animation - Moves left and right on scroll
+                // $('.skills__top, .skills__bottom').css("margin-left", Math.min(0 + 0.2*skillsStart, 20*5) + "px");
+                // $('.skills__mid').css("margin-left", Math.max(0 - 0.2*skillsStart, -20*5) + "px");                        
             }
             
 
