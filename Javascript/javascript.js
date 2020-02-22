@@ -252,13 +252,37 @@ class Slider{
         this.sliderIndicator.children[i].classList.add('active');
     }
     indicate(e){
-        e.preventDefault();
-        //Get SlideTo Attribute
+        e.preventDefault();                             
+        
+        if(this.isLoading == true){            
+            return;
+        }
+
+        //Add Loading Spinner
+        this.spinner = document.createElement("div");
+        this.spinner.classList.add('lds-spinner-wrapper');
+        this.spinner.insertAdjacentHTML('beforeend','<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>');
+        this.sliderSlides[this.currSlide].insertAdjacentElement('beforeend',this.spinner);        
+                
+        //Get SlideTo Attribute        
+        this.sliderContainer.classList.add('smooth-container');
         const slideTo = parseInt(e.target.getAttribute('data-slide-to'));
         this.currSlide = slideTo + 1;
-        //Slide 
-        this.sliderContainer.classList.add('smooth-container');
-        this.sliderContainer.style.transform = 'translateX( -'+this.currSlide * this.sliderSlides[0].clientWidth+'px)';               
+
+        if(this.currSlide > 0){             
+            for(let  i = 0; i < this.sliderSlides[this.currSlide].children.length; i++){
+                if(this.sliderSlides[this.currSlide].children[i].nodeName == "IMG"){
+                    const src = this.sliderSlides[(this.currSlide)].children[i].getAttribute('data-src');            
+                    this.sliderSlides[this.currSlide].children[i].addEventListener('load',this.loaded.bind(this));            
+                    this.sliderSlides[this.currSlide].children[i].setAttribute('src',src);                                                   
+                    this.isLoading = true
+                    break; 
+                }                
+            }               
+        }else{                     
+            this.isLoading = true;
+            this.loaded();
+        } 
     }
 
     //Resize
@@ -355,26 +379,35 @@ $(document).ready(function(){
     ** ** * LOGOBOXEX ANIMATION
     ** **
     */
-    let io = new IntersectionObserver(function(entries,observer){
-        entries.forEach(function(entry){            
-            if(entry.isIntersecting){                                      
-                const targetChild = $(entry.target).find('.anim-in');                
-                for(let i = 0; i < targetChild.length; i++){
-                    setTimeout(function(){
-                        $(targetChild[i]).addClass('anim-in-animate');                                                          
-                        $(targetChild[i]).css('box-shadow', '0 2rem 4rem rgba(0,0,0,.5)');                        
-                        $(targetChild[i]).on('webkitAnimationEnd',function(){                            
-                            $(targetChild[i]).css('visiblity','visible');                 
-                            $(targetChild[i]).css('box-shadow', 'none');                                                      
-                        });
-                   }, i * 100);     
-                }                               
-                observer.disconnect();
-            }            
+    var bpMedium = window.matchMedia("(max-width: 50rem)")
+    const showAllGrid = document.querySelector('.showcase__show-all__grid');   
+    if(!bpMedium.matches){        
+        let io = new IntersectionObserver(function(entries,observer){
+                entries.forEach(function(entry){            
+                    if(entry.isIntersecting){                                      
+                        const targetChild = $(entry.target).find('.anim-in');                
+                        for(let i = 0; i < targetChild.length; i++){
+                            setTimeout(function(){
+                                $(targetChild[i]).addClass('anim-in-animate');                                                          
+                                $(targetChild[i]).css('box-shadow', '0 2rem 4rem rgba(0,0,0,.5)');                        
+                                $(targetChild[i]).on('webkitAnimationEnd',function(){                            
+                                    $(targetChild[i]).css('visiblity','visible');                 
+                                    $(targetChild[i]).css('box-shadow', 'none');                                                      
+                                });
+                           }, i * 100);     
+                        }                               
+                        observer.disconnect();
+                    }            
+                });
+            });         
+            io.observe(showAllGrid);        
+    }else{        
+        const x = showAllGrid.querySelectorAll('.anim-in');
+        x.forEach(curr=>{
+            curr.classList.remove('anim-in');
         });
-    });
-    const showAllGrid = document.querySelector('.showcase__show-all__grid');    
-    io.observe(showAllGrid);
+        
+    }
     
 
     /*
@@ -493,9 +526,8 @@ $(document).ready(function(){
             lightboxResize = window.setTimeout(function(){
             //Resize Lightbox
             Sliders.forEach(curr=>{
-                curr.resize();
-                
-            });            
+                curr.resize();                
+            });                        
         },300);
     });
     
@@ -503,9 +535,9 @@ $(document).ready(function(){
     ** **
     ** ** * WINDOW RESIZE & SCROLL EVENT
     ** **
-    */    
-    $(window).on('resize scroll',function(){              
-
+    */       
+    $(window).on('resize scroll',function(){                      
+        
         //Remove animations for smaller devices
         if(!bpMedium.matches){                        
 
