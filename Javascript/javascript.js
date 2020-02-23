@@ -392,7 +392,7 @@ $(document).ready(function(){
                                 $(targetChild[i]).css('box-shadow', '0 2rem 4rem rgba(0,0,0,.5)');                        
                                 $(targetChild[i]).on('webkitAnimationEnd',function(){                            
                                     $(targetChild[i]).css('visiblity','visible');                 
-                                    $(targetChild[i]).css('box-shadow', 'none');                                                      
+                                    $(targetChild[i]).css('box-shadow', '');                                                      
                                 });
                            }, i * 100);     
                         }                               
